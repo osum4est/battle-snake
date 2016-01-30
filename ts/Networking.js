@@ -3,7 +3,7 @@ var BattleSnake;
     var Networking = (function () {
         function Networking() {
             this.url = "localhost";
-            this.port = "8000";
+            this.port = "8080";
         }
         Networking.getInstance = function () {
             return Networking._instance;
@@ -17,6 +17,7 @@ var BattleSnake;
             var myself = this;
             this.socket.on('getGameInfo', function (data) {
                 Networking.id = data['id'];
+                console.log("My id is" + Networking.id);
                 myself.callbacks.getGameInfo(data);
             }).on('oppJoined', function (data, id) {
                 console.log("Opponent joined! " + data['size']);
@@ -45,6 +46,6 @@ var BattleSnake;
         };
         Networking._instance = new Networking();
         return Networking;
-    }());
+    })();
     BattleSnake.Networking = Networking;
 })(BattleSnake || (BattleSnake = {}));

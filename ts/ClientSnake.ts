@@ -14,10 +14,10 @@ module BattleSnake {
                     this.speed = speed;
                     this.size = size;
 
-                    this.head = new SnakePart(5 * size, 5 * size, headColor);
+                    this.head = new SnakePart(10, 10, headColor);
                     this.body = new Array<SnakePart>();
-                    for (var i = 0; i < initLength; i++)
-                        this.body.push(new SnakePart(this.head.x - size * i, this.head.y, bodyColor));
+                    for (var i = 1; i <= initLength; i++)
+                        this.body.push(new SnakePart(this.head.x - i, this.head.y, bodyColor));
 
                     Input.registerInput(Phaser.Keyboard.UP, this);
                     Input.registerInput(Phaser.Keyboard.DOWN, this);

@@ -46,9 +46,9 @@ var BattleSnake;
             }
         };
         Snake.prototype.render = function (rendering) {
-            rendering.drawSquare(this.head.x, this.head.y, this.size, this.head.color);
+            rendering.drawSquare(this.head.x * BattleSnake.Play.boardSize, this.head.y * BattleSnake.Play.boardSize, BattleSnake.Play.boardSize, this.head.color);
             for (var i = 0; i < this.body.length; i++)
-                rendering.drawSquare(this.body[i].x, this.body[i].y, this.size, this.body[i].color);
+                rendering.drawSquare(this.body[i].x * BattleSnake.Play.boardSize, this.body[i].y * BattleSnake.Play.boardSize, BattleSnake.Play.boardSize, this.body[i].color);
         };
         Snake.prototype.move = function () {
             var moveX = 0;
@@ -67,24 +67,24 @@ var BattleSnake;
                     moveY = 1;
                     break;
             }
-            if (this.head.x + moveX * this.size >= BattleSnake.Play.boardSize * (BattleSnake.Play.boardWidth - 1))
-                this.head.x = BattleSnake.Play.boardSize;
-            else if (this.head.x + moveX * this.size <= 0)
-                this.head.x = BattleSnake.Play.boardSize * (BattleSnake.Play.boardWidth - 2);
-            else if (this.head.y + moveY * this.size >= BattleSnake.Play.boardSize * (BattleSnake.Play.boardHeight - 1))
-                this.head.y = BattleSnake.Play.boardSize;
-            else if (this.head.y + moveY * this.size <= 0)
-                this.head.y = BattleSnake.Play.boardSize * (BattleSnake.Play.boardHeight - 2);
-            else {
-                this.head.x += moveX * this.size;
-                this.head.y += moveY * this.size;
-            }
             for (var i = this.body.length - 1; i > 0; i--) {
                 this.body[i].x = this.body[i - 1].x;
                 this.body[i].y = this.body[i - 1].y;
             }
             this.body[0].x = this.head.x;
             this.body[0].y = this.head.y;
+            if (this.head.x + moveX >= (BattleSnake.Play.boardWidth - 1))
+                this.head.x = 1;
+            else if (this.head.x + moveX <= 0)
+                this.head.x = (BattleSnake.Play.boardWidth - 2);
+            else if (this.head.y + moveY >= (BattleSnake.Play.boardHeight - 1))
+                this.head.y = 1;
+            else if (this.head.y + moveY <= 0)
+                this.head.y = (BattleSnake.Play.boardHeight - 2);
+            else {
+                this.head.x += moveX;
+                this.head.y += moveY;
+            }
         };
         Snake.prototype.getJSON = function () {
             var json = {
@@ -114,7 +114,7 @@ var BattleSnake;
             return json;
         };
         return Snake;
-    }(BattleSnake.GameObject));
+    })(BattleSnake.GameObject);
     BattleSnake.Snake = Snake;
     var SnakePart = (function () {
         function SnakePart(x, y, color) {
@@ -123,6 +123,6 @@ var BattleSnake;
             this.color = color;
         }
         return SnakePart;
-    }());
+    })();
     BattleSnake.SnakePart = SnakePart;
 })(BattleSnake || (BattleSnake = {}));

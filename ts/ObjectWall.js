@@ -11,6 +11,6 @@ var BattleSnake;
             _super.apply(this, arguments);
         }
         return ObjectWall;
-    }(BattleSnake.BasicGameObject));
+    })(BattleSnake.BasicGameObject);
     BattleSnake.ObjectWall = ObjectWall;
 })(BattleSnake || (BattleSnake = {}));

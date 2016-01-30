@@ -9,9 +9,9 @@ var BattleSnake;
         __extends(NetworkSnake, _super);
         function NetworkSnake(game, json) {
             this.loadJSON(json);
-            _super.call(this, game, this.speed);
+            _super.call(this, this.speed);
         }
         return NetworkSnake;
-    }(BattleSnake.Snake));
+    })(BattleSnake.Snake);
     BattleSnake.NetworkSnake = NetworkSnake;
 })(BattleSnake || (BattleSnake = {}));

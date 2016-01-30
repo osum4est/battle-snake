@@ -4,7 +4,7 @@ module BattleSnake {
         private static _instance: Networking = new Networking();
 
         private url: string = "localhost";
-        private port: string = "8000";
+        private port: string = "8080";
         private callbacks: IMultiplayerCallbacks;
         private static id: string;
 
@@ -21,12 +21,13 @@ module BattleSnake {
         connect() {
             this.socket = io.connect("https://battle-snake-osum4est.c9users.io")
             //this.socket = io.connect("https://multiplayertest-8bitforest.rhcloud.com");
-            //this.socket = io.connect(this.url + ":" + this.port);
+            //this.socket = io.connect("localhost:8000");
             console.log("Connected to: " + this.socket.io.uri)
 
             var myself = this;
             this.socket.on('getGameInfo', function(data) {
                 Networking.id = data['id'];
+                console.log("My id is" + Networking.id);
                 myself.callbacks.getGameInfo(data);
             }).on('oppJoined', function(data, id) {
                 console.log("Opponent joined! " + data['size']);

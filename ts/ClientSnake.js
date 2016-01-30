@@ -13,10 +13,10 @@ var BattleSnake;
             this.direction = BattleSnake.Direction.RIGHT;
             this.speed = speed;
             this.size = size;
-            this.head = new BattleSnake.SnakePart(5 * size, 5 * size, headColor);
+            this.head = new BattleSnake.SnakePart(10, 10, headColor);
             this.body = new Array();
-            for (var i = 0; i < initLength; i++)
-                this.body.push(new BattleSnake.SnakePart(this.head.x - size * i, this.head.y, bodyColor));
+            for (var i = 1; i <= initLength; i++)
+                this.body.push(new BattleSnake.SnakePart(this.head.x - i, this.head.y, bodyColor));
             BattleSnake.Input.registerInput(Phaser.Keyboard.UP, this);
             BattleSnake.Input.registerInput(Phaser.Keyboard.DOWN, this);
             BattleSnake.Input.registerInput(Phaser.Keyboard.LEFT, this);
@@ -42,6 +42,6 @@ var BattleSnake;
             }
         };
         return ClientSnake;
-    }(BattleSnake.Snake));
+    })(BattleSnake.Snake);
     BattleSnake.ClientSnake = ClientSnake;
 })(BattleSnake || (BattleSnake = {}));

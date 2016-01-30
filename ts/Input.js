@@ -10,6 +10,6 @@ var BattleSnake;
             this.game.input.keyboard.addKey(key).onDown.add(function () { context.recieveInput(key); });
         };
         return Input;
-    }());
+    })();
     BattleSnake.Input = Input;
 })(BattleSnake || (BattleSnake = {}));

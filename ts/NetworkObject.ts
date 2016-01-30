@@ -1,4 +1,4 @@
-/// <reference path="./GameObject.ts"/>
+/// <reference path="./BasicGameObject.ts" />
 
 module BattleSnake {
     export class NetworkObject extends BasicGameObject {
@@ -6,21 +6,20 @@ module BattleSnake {
         id: string;
 
         constructor(json: any, id: string) {
-            super(json['size'], json['color'], json['x'], json['y']);
+            super(json['color'], json['x'], json['y']);
             this.id = id;
         }
 
         loadJSON(json: any) {
-            this.size = json['size'];
             this.color = json['color'];
             this.x = json['x'];
             this.y = json['y'];
+
         }
 
         getJSON(): any {
             return {
-                size: this.size,
-                color: this.size,
+                color: this.color,
                 x: this.x,
                 y: this.y
             };

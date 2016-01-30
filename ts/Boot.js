@@ -19,6 +19,6 @@ var BattleSnake;
             this.scale.refresh();
         };
         return Boot;
-    }(Phaser.State));
+    })(Phaser.State);
     BattleSnake.Boot = Boot;
 })(BattleSnake || (BattleSnake = {}));

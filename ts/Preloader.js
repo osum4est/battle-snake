@@ -19,6 +19,6 @@ var BattleSnake;
             myself.game.state.start('MainMenu', true, false);
         };
         return Preloader;
-    }(Phaser.State));
+    })(Phaser.State);
     BattleSnake.Preloader = Preloader;
 })(BattleSnake || (BattleSnake = {}));

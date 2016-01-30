@@ -36,6 +36,6 @@ var BattleSnake;
             };
         };
         return MainMenu;
-    }(Phaser.State));
+    })(Phaser.State);
     BattleSnake.MainMenu = MainMenu;
 })(BattleSnake || (BattleSnake = {}));

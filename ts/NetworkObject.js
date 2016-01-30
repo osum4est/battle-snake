@@ -8,24 +8,22 @@ var BattleSnake;
     var NetworkObject = (function (_super) {
         __extends(NetworkObject, _super);
         function NetworkObject(json, id) {
-            _super.call(this, json['size'], json['color'], json['x'], json['y']);
+            _super.call(this, json['color'], json['x'], json['y']);
             this.id = id;
         }
         NetworkObject.prototype.loadJSON = function (json) {
-            this.size = json['size'];
             this.color = json['color'];
             this.x = json['x'];
             this.y = json['y'];
         };
         NetworkObject.prototype.getJSON = function () {
             return {
-                size: this.size,
-                color: this.size,
+                color: this.color,
                 x: this.x,
                 y: this.y
             };
         };
         return NetworkObject;
-    }(BattleSnake.BasicGameObject));
+    })(BattleSnake.BasicGameObject);
     BattleSnake.NetworkObject = NetworkObject;
 })(BattleSnake || (BattleSnake = {}));

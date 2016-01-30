@@ -16,6 +16,6 @@ var BattleSnake;
             this.state.start('Boot');
         }
         return BattleSnake;
-    }(Phaser.Game));
+    })(Phaser.Game);
     BattleSnake_1.BattleSnake = BattleSnake;
 })(BattleSnake || (BattleSnake = {}));

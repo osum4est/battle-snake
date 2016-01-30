@@ -1,4 +1,5 @@
 module BattleSnake {
+    import Game = Phaser.Game;
     export class Play extends Phaser.State implements IMultiplayerCallbacks {
 
         static boardSize: number;
@@ -24,7 +25,6 @@ module BattleSnake {
 
             this.gameObjects = new Array<GameObject>();
 
-            var myself = this;
             this.networking.connect();
         }
 
@@ -42,7 +42,7 @@ module BattleSnake {
             this.gameObjects.forEach(go => {
                 go.create();
             });
-            this.makeBoard(Play.boardSize, Play.boardWidth, Play.boardHeight, 0x0000FF);
+            this.makeBoard(Play.boardWidth, Play.boardHeight, 0x0000FF);
             this.networking.join(this.snake.getJSON());
         }
 
@@ -50,10 +50,6 @@ module BattleSnake {
             Play.boardSize = json['boardSize'];
             Play.boardWidth = json['boardWidth'];
             Play.boardHeight = json['boardHeight'];
-            console.log("got game info " + json[0]);
-            if (json == null) {
-                console.log("game info is null");
-            }
             this.startGame();
         }
 
@@ -108,14 +104,14 @@ module BattleSnake {
             });
         }
 
-        makeBoard(tileSize: number, width: number, height: number, color: number) {
+        makeBoard(width: number, height: number, color: number) {
             for (var i = 0; i < width; i++) {
-                this.registerGameObject(new ObjectWall(tileSize, color, i * tileSize, 0));
-                this.registerGameObject(new ObjectWall(tileSize, color, i * tileSize, (height - 1) * tileSize));
+                this.registerGameObject(new BasicGameObject(color, i, 0));
+                this.registerGameObject(new BasicGameObject(color, i, (height - 1)));
             }
             for(var i = 0; i < height; i++) {
-                this.registerGameObject(new ObjectWall(tileSize, color, 0, i * tileSize));
-                this.registerGameObject(new ObjectWall(tileSize, color, (width - 1) * tileSize, i * tileSize));
+                this.registerGameObject(new BasicGameObject(color, 0, i));
+                this.registerGameObject(new BasicGameObject(color, (width - 1), i));
             }
         }
 

@@ -56,9 +56,15 @@ module BattleSnake {
         }
 
         render(rendering: Rendering) {
-            rendering.drawSquare(this.head.x, this.head.y, this.size, this.head.color);
+            rendering.drawSquare(this.head.x * Play.boardSize,
+                this.head.y * Play.boardSize,
+                Play.boardSize,
+                this.head.color);
             for (var i = 0; i < this.body.length; i++)
-                rendering.drawSquare(this.body[i].x, this.body[i].y, this.size, this.body[i].color);
+                rendering.drawSquare(this.body[i].x * Play.boardSize,
+                    this.body[i].y * Play.boardSize,
+                    Play.boardSize,
+                    this.body[i].color);
         }
 
         move() {
@@ -80,25 +86,26 @@ module BattleSnake {
                     break;
             }
 
-            if (this.head.x + moveX * this.size >= Play.boardSize * (Play.boardWidth - 1))
-                this.head.x = Play.boardSize;
-            else if (this.head.x + moveX * this.size <= 0)
-                this.head.x = Play.boardSize * (Play.boardWidth - 2);
-            else if (this.head.y + moveY * this.size >= Play.boardSize * (Play.boardHeight - 1))
-                this.head.y = Play.boardSize;
-            else if (this.head.y + moveY * this.size <= 0)
-                this.head.y = Play.boardSize * (Play.boardHeight - 2);
-            else {
-                this.head.x += moveX * this.size;
-                this.head.y += moveY * this.size;
-            }
+
             for (var i = this.body.length - 1; i > 0 ; i--) {
                 this.body[i].x = this.body[i - 1].x;
                 this.body[i].y = this.body[i - 1].y;
             }
-            
             this.body[0].x = this.head.x;
             this.body[0].y = this.head.y;
+
+            if (this.head.x + moveX >= (Play.boardWidth - 1))
+                this.head.x = 1;
+            else if (this.head.x + moveX <= 0)
+                this.head.x = (Play.boardWidth - 2);
+            else if (this.head.y + moveY >= (Play.boardHeight - 1))
+                this.head.y = 1;
+            else if (this.head.y + moveY <= 0)
+                this.head.y = (Play.boardHeight - 2);
+            else {
+                this.head.x += moveX;
+                this.head.y += moveY;
+            }
         }
 
         getJSON(): any {

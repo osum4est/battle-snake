@@ -17,6 +17,6 @@ var BattleSnake;
             this.graphics.endFill();
         };
         return Rendering;
-    }());
+    })();
     BattleSnake.Rendering = Rendering;
 })(BattleSnake || (BattleSnake = {}));

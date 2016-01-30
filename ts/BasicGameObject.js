@@ -7,17 +7,16 @@ var BattleSnake;
 (function (BattleSnake) {
     var BasicGameObject = (function (_super) {
         __extends(BasicGameObject, _super);
-        function BasicGameObject(size, color, x, y) {
+        function BasicGameObject(color, x, y) {
             _super.call(this);
-            this.size = size;
             this.color = color;
             this.x = x;
             this.y = y;
         }
         BasicGameObject.prototype.render = function (rendering) {
-            rendering.drawSquare(this.x, this.y, this.size, this.color);
+            rendering.drawSquare(this.x * BattleSnake.Play.boardSize, this.y * BattleSnake.Play.boardSize, BattleSnake.Play.boardSize, this.color);
         };
         return BasicGameObject;
-    }(BattleSnake.GameObject));
+    })(BattleSnake.GameObject);
     BattleSnake.BasicGameObject = BasicGameObject;
 })(BattleSnake || (BattleSnake = {}));

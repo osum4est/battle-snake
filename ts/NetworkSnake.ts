@@ -10,7 +10,7 @@ module BattleSnake {
 
         constructor(game: Phaser.Game, json: any) {
             this.loadJSON(json);
-            super(game, this.speed);
+            super(this.speed);
         }
 
         

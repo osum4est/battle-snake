@@ -10,6 +10,6 @@ var BattleSnake;
         GameObject.prototype.render = function (rendering) { };
         ;
         return GameObject;
-    }());
+    })();
     BattleSnake.GameObject = GameObject;
 })(BattleSnake || (BattleSnake = {}));

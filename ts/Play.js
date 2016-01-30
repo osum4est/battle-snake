@@ -19,7 +19,6 @@ var BattleSnake;
             this.networking = BattleSnake.Networking.getInstance();
             this.networking.setMultiplayerCallbacks(this);
             this.gameObjects = new Array();
-            var myself = this;
             this.networking.connect();
         };
         Play.prototype.startGame = function () {
@@ -29,17 +28,13 @@ var BattleSnake;
             this.gameObjects.forEach(function (go) {
                 go.create();
             });
-            this.makeBoard(Play.boardSize, Play.boardWidth, Play.boardHeight, 0x0000FF);
+            this.makeBoard(Play.boardWidth, Play.boardHeight, 0x0000FF);
             this.networking.join(this.snake.getJSON());
         };
         Play.prototype.getGameInfo = function (json) {
             Play.boardSize = json['boardSize'];
             Play.boardWidth = json['boardWidth'];
             Play.boardHeight = json['boardHeight'];
-            console.log("got game info " + json[0]);
-            if (json == null) {
-                console.log("game info is null");
-            }
             this.startGame();
         };
         Play.prototype.oppJoined = function (json, id) {
@@ -84,20 +79,20 @@ var BattleSnake;
                 go.render(_this.rendering);
             });
         };
-        Play.prototype.makeBoard = function (tileSize, width, height, color) {
+        Play.prototype.makeBoard = function (width, height, color) {
             for (var i = 0; i < width; i++) {
-                this.registerGameObject(new BattleSnake.ObjectWall(tileSize, color, i * tileSize, 0));
-                this.registerGameObject(new BattleSnake.ObjectWall(tileSize, color, i * tileSize, (height - 1) * tileSize));
+                this.registerGameObject(new BattleSnake.BasicGameObject(color, i, 0));
+                this.registerGameObject(new BattleSnake.BasicGameObject(color, i, (height - 1)));
             }
             for (var i = 0; i < height; i++) {
-                this.registerGameObject(new BattleSnake.ObjectWall(tileSize, color, 0, i * tileSize));
-                this.registerGameObject(new BattleSnake.ObjectWall(tileSize, color, (width - 1) * tileSize, i * tileSize));
+                this.registerGameObject(new BattleSnake.BasicGameObject(color, 0, i));
+                this.registerGameObject(new BattleSnake.BasicGameObject(color, (width - 1), i));
             }
         };
         Play.prototype.registerGameObject = function (gameObject) {
             this.gameObjects.push(gameObject);
         };
         return Play;
-    }(Phaser.State));
+    })(Phaser.State);
     BattleSnake.Play = Play;
 })(BattleSnake || (BattleSnake = {}));
