@@ -19,32 +19,16 @@ module BattleSnake {
                     for (var i = 1; i <= initLength; i++)
                         this.body.push(new SnakePart(this.head.x - i, this.head.y, bodyColor));
 
-                    Input.registerInput(Phaser.Keyboard.UP, this);
-                    Input.registerInput(Phaser.Keyboard.DOWN, this);
-                    Input.registerInput(Phaser.Keyboard.LEFT, this);
-                    Input.registerInput(Phaser.Keyboard.RIGHT, this);
+                    Input.registerDirectionHandler(this);
                 }
 
                 changeDirection(direction: Direction) {
                     Networking.getInstance().input({ direction: direction });
                 }
 
-                recieveInput(key: number) {
-                    switch (key) {
-                        case Phaser.Keyboard.UP:
-                            this.changeDirection(Direction.UP);
-                            break;
-                        case Phaser.Keyboard.DOWN:
-                            this.changeDirection(Direction.DOWN);
-                            break;
-                        case Phaser.Keyboard.LEFT:
-                            this.changeDirection(Direction.LEFT);
-                            break;
-                        case Phaser.Keyboard.RIGHT:
-                            this.changeDirection(Direction.RIGHT);
-                            break;
-                    }
-
+                directionInput(direction: Direction) {
+                    if (direction != null && direction != Direction.NONE)
+                        this.changeDirection(direction);
                 }
             }
         }

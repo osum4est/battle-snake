@@ -26,6 +26,7 @@
         "phaser/p2.d.ts",
         "phaser/phaser.d.ts",
         "phaser/pixi.d.ts",
+        "typings/hammerjs/hammerjs.d.ts",
         "ts/App.ts",
         "ts/BasicGameObject.ts",
         "ts/BattleSnake.ts",

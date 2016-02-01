@@ -17,29 +17,14 @@ var BattleSnake;
             this.body = new Array();
             for (var i = 1; i <= initLength; i++)
                 this.body.push(new BattleSnake.SnakePart(this.head.x - i, this.head.y, bodyColor));
-            BattleSnake.Input.registerInput(Phaser.Keyboard.UP, this);
-            BattleSnake.Input.registerInput(Phaser.Keyboard.DOWN, this);
-            BattleSnake.Input.registerInput(Phaser.Keyboard.LEFT, this);
-            BattleSnake.Input.registerInput(Phaser.Keyboard.RIGHT, this);
+            BattleSnake.Input.registerDirectionHandler(this);
         }
         ClientSnake.prototype.changeDirection = function (direction) {
             BattleSnake.Networking.getInstance().input({ direction: direction });
         };
-        ClientSnake.prototype.recieveInput = function (key) {
-            switch (key) {
-                case Phaser.Keyboard.UP:
-                    this.changeDirection(BattleSnake.Direction.UP);
-                    break;
-                case Phaser.Keyboard.DOWN:
-                    this.changeDirection(BattleSnake.Direction.DOWN);
-                    break;
-                case Phaser.Keyboard.LEFT:
-                    this.changeDirection(BattleSnake.Direction.LEFT);
-                    break;
-                case Phaser.Keyboard.RIGHT:
-                    this.changeDirection(BattleSnake.Direction.RIGHT);
-                    break;
-            }
+        ClientSnake.prototype.directionInput = function (direction) {
+            if (direction != null && direction != BattleSnake.Direction.NONE)
+                this.changeDirection(direction);
         };
         return ClientSnake;
     })(BattleSnake.Snake);

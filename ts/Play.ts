@@ -14,6 +14,8 @@ module BattleSnake {
         rendering; Rendering;
         networking: Networking;
 
+
+
         create() {
             this.stage.backgroundColor = 0xF2F2F2;
             this.stage.disableVisibilityChange = true;
