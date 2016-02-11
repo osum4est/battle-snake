@@ -15,17 +15,16 @@ var BattleSnake;
     var Direction = BattleSnake.Direction;
     var Snake = (function (_super) {
         __extends(Snake, _super);
-        function Snake(speed) {
+        function Snake(json) {
             _super.call(this);
-            this.speed = speed;
+            this.tailIndex = 0;
+            this.loadJSON(json);
         }
         Snake.prototype.loadJSON = function (json) {
             if (json['direction'] != null)
                 this.direction = json['direction'];
-            if (json['speed'] != null)
-                this.speed = json['speed'];
-            if (json['size'] != null)
-                this.size = json['size'];
+            if (json['tailIndex'] != null)
+                this.tailIndex = json['tailIndex'];
             if (json['head'] != null)
                 this.head = new SnakePart(json['head']['x'], json['head']['y'], json['head']['color']);
             if (json['body'] != null) {
@@ -41,9 +40,9 @@ var BattleSnake;
         };
         Snake.prototype.grow = function (amount) {
             for (var i = 0; i < amount; i++) {
-                this.body.push(new SnakePart(this.body[this.body.length - 1].x, this.body[this.body.length - 1].y, Number("0x" + (Math.random() * 0xFFFFFF << 0).toString(16))));
-                console.log("adding part at: " + this.body[this.body.length - 1].x + ", " + this.body[this.body.length - 1].y);
+                this.body.splice(this.tailIndex, 0, new SnakePart(this.head.x, this.head.y, Number("0x" + (Math.random() * 0xFFFFFF << 0).toString(16))));
             }
+            this.tailIndex += amount;
         };
         Snake.prototype.render = function (rendering) {
             rendering.drawSquare(this.head.x * BattleSnake.Play.boardSize, this.head.y * BattleSnake.Play.boardSize, BattleSnake.Play.boardSize, this.head.color);
@@ -67,12 +66,11 @@ var BattleSnake;
                     moveY = 1;
                     break;
             }
-            for (var i = this.body.length - 1; i > 0; i--) {
-                this.body[i].x = this.body[i - 1].x;
-                this.body[i].y = this.body[i - 1].y;
-            }
-            this.body[0].x = this.head.x;
-            this.body[0].y = this.head.y;
+            this.body[this.tailIndex].x = this.head.x;
+            this.body[this.tailIndex].y = this.head.y;
+            this.tailIndex--;
+            if (this.tailIndex < 0)
+                this.tailIndex = this.body.length - 1;
             if (this.head.x + moveX >= (BattleSnake.Play.boardWidth - 1))
                 this.head.x = 1;
             else if (this.head.x + moveX <= 0)
@@ -88,8 +86,6 @@ var BattleSnake;
         };
         Snake.prototype.getJSON = function () {
             var json = {
-                speed: this.speed,
-                size: this.size,
                 direction: this.direction,
                 head: {
                     x: this.head.x,

@@ -12,7 +12,7 @@ var BattleSnake;
             return Networking.id;
         };
         Networking.prototype.connect = function () {
-            this.socket = io.connect("https://battle-snake-osum4est.c9users.io");
+            this.socket = io.connect("localhost:8000");
             console.log("Connected to: " + this.socket.io.uri);
             var myself = this;
             this.socket.on('getGameInfo', function (data) {
@@ -35,8 +35,8 @@ var BattleSnake;
         Networking.prototype.update = function (json) {
             this.socket.emit('update', json);
         };
-        Networking.prototype.join = function (data) {
-            this.socket.emit('joined', data);
+        Networking.prototype.join = function () {
+            this.socket.emit('joined');
         };
         Networking.prototype.input = function (json) {
             this.socket.emit('input', json);

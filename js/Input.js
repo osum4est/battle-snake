@@ -17,6 +17,14 @@ var BattleSnake;
                 .onDown.add(function () { context.directionInput(BattleSnake.Direction.LEFT); });
             this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
                 .onDown.add(function () { context.directionInput(BattleSnake.Direction.RIGHT); });
+            this.game.input.keyboard.addKey(Phaser.Keyboard.K)
+                .onDown.add(function () { context.directionInput(BattleSnake.Direction.UP); });
+            this.game.input.keyboard.addKey(Phaser.Keyboard.J)
+                .onDown.add(function () { context.directionInput(BattleSnake.Direction.DOWN); });
+            this.game.input.keyboard.addKey(Phaser.Keyboard.H)
+                .onDown.add(function () { context.directionInput(BattleSnake.Direction.LEFT); });
+            this.game.input.keyboard.addKey(Phaser.Keyboard.L)
+                .onDown.add(function () { context.directionInput(BattleSnake.Direction.RIGHT); });
             this.hammer.on('swipeup', function () { context.directionInput(BattleSnake.Direction.UP); });
             this.hammer.on('swipedown', function () { context.directionInput(BattleSnake.Direction.DOWN); });
             this.hammer.on('swipeleft', function () { context.directionInput(BattleSnake.Direction.LEFT); });

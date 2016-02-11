@@ -19,9 +19,9 @@ module BattleSnake {
         }
 
         connect() {
-            this.socket = io.connect("https://battle-snake-osum4est.c9users.io")
+            //this.socket = io.connect("https://battle-snake-osum4est.c9users.io")
             //this.socket = io.connect("https://multiplayertest-8bitforest.rhcloud.com");
-            //this.socket = io.connect("localhost:8000");
+            this.socket = io.connect("localhost:8000");
             console.log("Connected to: " + this.socket.io.uri)
 
             var myself = this;
@@ -47,8 +47,8 @@ module BattleSnake {
             this.socket.emit('update', json);
         }
 
-        join(data: any) {
-            this.socket.emit('joined', data);
+        join() {
+            this.socket.emit('joined');
         }
 
         input(json: any) {

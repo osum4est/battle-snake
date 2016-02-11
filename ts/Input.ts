@@ -10,7 +10,7 @@ module BattleSnake {
             this.hammer.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
         }
 
-        static registerDirectionHandler(context: any) {
+        static registerDirectionHandler(context: IInputCallbacks) {
             // Keyboard
             this.game.input.keyboard.addKey(Phaser.Keyboard.UP)
                 .onDown.add(function() { context.directionInput(Direction.UP); });
@@ -20,6 +20,18 @@ module BattleSnake {
                 .onDown.add(function() { context.directionInput(Direction.LEFT); });
             this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
                 .onDown.add(function() { context.directionInput(Direction.RIGHT); });
+
+	    // ViM Controls
+	    this.game.input.keyboard.addKey(Phaser.Keyboard.K)
+                .onDown.add(function() { context.directionInput(Direction.UP); });
+            this.game.input.keyboard.addKey(Phaser.Keyboard.J)
+                .onDown.add(function() { context.directionInput(Direction.DOWN); });
+            this.game.input.keyboard.addKey(Phaser.Keyboard.H)
+                .onDown.add(function() { context.directionInput(Direction.LEFT); });
+            this.game.input.keyboard.addKey(Phaser.Keyboard.L)
+                .onDown.add(function() { context.directionInput(Direction.RIGHT); });
+
+
 
             // Swipe
             this.hammer.on('swipeup', () => { context.directionInput(Direction.UP); });

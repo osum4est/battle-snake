@@ -20,16 +20,19 @@ var BattleSnake;
             this.networking.setMultiplayerCallbacks(this);
             this.gameObjects = new Array();
             this.networking.connect();
+            BattleSnake.Input.registerDirectionHandler(this);
+        };
+        Play.prototype.directionInput = function (direction) {
+            if (direction != null && direction != BattleSnake.Direction.NONE)
+                BattleSnake.Networking.getInstance().input({ direction: direction });
         };
         Play.prototype.startGame = function () {
             console.log("starting game");
-            this.snake = new BattleSnake.ClientSnake(50, 5, Play.boardSize, Number("0x" + (Math.random() * 0xFFFFFF << 0).toString(16)), 0xFF0000);
-            this.registerGameObject(this.snake);
             this.gameObjects.forEach(function (go) {
                 go.create();
             });
             this.makeBoard(Play.boardWidth, Play.boardHeight, 0x0000FF);
-            this.networking.join(this.snake.getJSON());
+            this.networking.join();
         };
         Play.prototype.getGameInfo = function (json) {
             Play.boardSize = json['boardSize'];
@@ -38,15 +41,10 @@ var BattleSnake;
             this.startGame();
         };
         Play.prototype.oppJoined = function (json, id) {
-            this.oppSnakes[id] = new BattleSnake.NetworkSnake(this.game, json);
+            this.oppSnakes[id] = new BattleSnake.Snake(json);
             console.log("Snake with id: " + id + " has joined.");
-            console.log("Size: " + this.oppSnakes[id].size);
         };
         Play.prototype.snakeUpdate = function (json, id) {
-            if (id == BattleSnake.Networking.getId()) {
-                this.snake.loadJSON(json);
-                this.snake.move();
-            }
             if (this.oppSnakes[id] != null) {
                 this.oppSnakes[id].loadJSON(json);
                 this.oppSnakes[id].move();
@@ -56,11 +54,11 @@ var BattleSnake;
             delete this.oppSnakes[id];
         };
         Play.prototype.addGameObject = function (json, id) {
-            this.gameObjects.push(new BattleSnake.NetworkObject(json, id));
+            this.gameObjects.push(new BattleSnake.BasicGameObject(json['color'], json['x'], json['y'], id));
         };
         Play.prototype.removeGameObject = function (id) {
             for (var i = 0; i < this.gameObjects.length; i++)
-                if (this.gameObjects[i] instanceof BattleSnake.NetworkObject)
+                if (this.gameObjects[i] instanceof BattleSnake.BasicGameObject)
                     if (this.gameObjects[i].id == id)
                         delete this.gameObjects[i];
         };
@@ -81,12 +79,12 @@ var BattleSnake;
         };
         Play.prototype.makeBoard = function (width, height, color) {
             for (var i = 0; i < width; i++) {
-                this.registerGameObject(new BattleSnake.BasicGameObject(color, i, 0));
-                this.registerGameObject(new BattleSnake.BasicGameObject(color, i, (height - 1)));
+                this.registerGameObject(new BattleSnake.BasicGameObject(color, i, 0, null));
+                this.registerGameObject(new BattleSnake.BasicGameObject(color, i, (height - 1), null));
             }
             for (var i = 0; i < height; i++) {
-                this.registerGameObject(new BattleSnake.BasicGameObject(color, 0, i));
-                this.registerGameObject(new BattleSnake.BasicGameObject(color, (width - 1), i));
+                this.registerGameObject(new BattleSnake.BasicGameObject(color, 0, i, null));
+                this.registerGameObject(new BattleSnake.BasicGameObject(color, (width - 1), i, null));
             }
         };
         Play.prototype.registerGameObject = function (gameObject) {

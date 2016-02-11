@@ -13,24 +13,21 @@ module BattleSnake {
     export class Snake extends GameObject {
 
         direction: Direction;
-        speed: number;
-        size: number;
 
         body: Array<SnakePart>;
         head: SnakePart;
+        tailIndex: number = 0;
 
-        constructor(speed: number) {
+        constructor(json: any) {
             super();
-            this.speed = speed;
+	    this.loadJSON(json);
         }
 
         loadJSON(json: any) {
             if (json['direction'] != null)
                 this.direction = json['direction'];
-            if (json['speed'] != null)
-                this.speed = json['speed'];
-            if (json['size'] != null)
-                this.size = json['size']
+            if(json['tailIndex'] != null)
+                this.tailIndex = json['tailIndex'];
 
             if (json['head'] != null)
                 this.head = new SnakePart(json['head']['x'], json['head']['y'], json['head']['color']);
@@ -50,9 +47,13 @@ module BattleSnake {
 
         grow(amount: number) {
             for (var i = 0; i < amount; i++) {
-                this.body.push(new SnakePart(this.body[this.body.length - 1].x, this.body[this.body.length - 1].y, Number("0x" + (Math.random() * 0xFFFFFF << 0).toString(16))));
-                console.log("adding part at: " + this.body[this.body.length - 1].x + ", " + this.body[this.body.length - 1].y);
+
+                this.body.splice(this.tailIndex, 0,
+                    new SnakePart(this.head.x,
+                    this.head.y,
+                    Number("0x" + (Math.random() * 0xFFFFFF << 0).toString(16))));
             }
+            this.tailIndex+=amount;
         }
 
         render(rendering: Rendering) {
@@ -86,13 +87,11 @@ module BattleSnake {
                     break;
             }
 
-
-            for (var i = this.body.length - 1; i > 0 ; i--) {
-                this.body[i].x = this.body[i - 1].x;
-                this.body[i].y = this.body[i - 1].y;
-            }
-            this.body[0].x = this.head.x;
-            this.body[0].y = this.head.y;
+            this.body[this.tailIndex].x = this.head.x;
+            this.body[this.tailIndex].y = this.head.y;
+            this.tailIndex--;
+            if (this.tailIndex < 0)
+                this.tailIndex = this.body.length - 1;
 
             if (this.head.x + moveX >= (Play.boardWidth - 1))
                 this.head.x = 1;
@@ -110,8 +109,6 @@ module BattleSnake {
 
         getJSON(): any {
             var json: any = {
-                speed: this.speed,
-                size: this.size,
                 direction: this.direction,
                 head: {
                     x: this.head.x,
